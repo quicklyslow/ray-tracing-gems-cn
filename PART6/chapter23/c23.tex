@@ -1,0 +1,56 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage[UTF8]{ctex}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{reflection}[2][Reflection]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{proposition}[2][Proposition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+ 
+ 
+ \usepackage[usenames, dvipsnames]{color}
+ 
+ \definecolor{titcolor}{RGB}{0, 68, 49}
+ \setlength{\parindent}{2em}
+ 
+ 
+\begin{document}
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+%\renewcommand{\qedsymbol}{\filledbox}
+\title{\color{titcolor} 寒霜引擎的交互式光照贴图和辐射度体积预览}
+\author{{\small\textsl{ Diede Apers, Petter Edblom, Charles de Rousiers, and Sébastien Hillaire}} \\ {\small\textsl{Electronic Arts}}}
+
+\maketitle
+%\cite{halo}.
+\section{\color{titcolor} 摘要}
+    本章介绍了用于寒霜引擎中的实时全局光照（GI）预览系统。具体方法是基于GPU的蒙特卡洛路径追踪，用DirectX Raytracing（DXR）API实现。我们提供了这样一种方法，可以根据构成一个场景的元素来实时更新光照贴图和辐射度体积。同时也讲解了可以加速这些实时更新的方法，比如视图优先选择和辐射度缓存。还使用了一个光照贴图降噪器来确保输出到屏幕的图像始终优质。这套方案让美术设计师们可以看到他们的修改结果逐渐调优的展现在屏幕上，而不是像之前基于CPU的全局光照求解方式那样等待数分钟甚至几小时之后才出现最终的结果。虽然这套全局光照方案需要好几秒才能收敛，但也足以让美术设计师对于场景的最终效果有充分的了解进而评估出场景的质量。然后就可以让他们更加快速的迭代以获得更高质量的场景光源设置方式。
+    \subsection[23.1]{简介}
+    从1996年的雷神之锤（Quake）开始，用光照贴图实现的预计算光照就被用于游戏之中。自那时起，光照贴图的表现就不断的进化来达到更高质量的视觉保真度\cite{halo}。可是，在实际生产环境中的冗长的烘焙时间让光照的工作流程对于美术设计师而言低效，对于程序工程师而言难以调试。我们的目标就是给寒霜引擎的编辑器提供一个可以实时预览的漫反射全局光照系统。 \\
+    \indent 艺电公司（Electronic Arts）出品了各种不同类型的游戏，她们采用了不同种类的光照复杂度：静态光照诸如星球大战战场前线2，随着时间交替的昼夜光照诸如极品飞车，甚至还有基于动态光照的可破坏式动态更新的全局光照方案诸如战地系列。本章是关于在游戏过程中不变的静态全局光照，寒霜自带的全局光照求解器正好适用。可以看图23-1，基于烘焙光照贴图和光照探针的静态全局光照效果很好：可以用高质量的全局光照烘焙，可以不用耗费太多的算力就在屏幕上得出高保真的视觉效果。
+\begin{thebibliography}{20}
+\bibitem{halo}
+Hao, C., and Xinguo, L.
+\textit{Lighting and Material of Halo 3. Game Developers Conference, 2008.}
+\end{thebibliography}
+\end{document}
